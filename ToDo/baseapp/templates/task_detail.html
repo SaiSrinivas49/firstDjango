@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>Task: {{task.task}}</h3>
+    <h4>Description: {{task.description}}</h4>
+    <h4>Created at: {{task.created}}</h4>
+    <a href="{% url 'TaskList' %}">Go Home</a>
+</body>
+</html>

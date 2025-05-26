@@ -1,0 +1,84 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task List</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'static/task_list_style.css'%}">
+    <style>
+        .header{
+            display: flex;
+            justify-content: space-between;
+            padding: 0px 10px;
+            margin: 5px;
+            flex-direction: row;
+            align-items: center;
+        }
+        .header button{
+            background-color: rgb(107, 241, 107);
+            border: white;
+            border-radius: 3px;
+        }
+        .header button:hover{
+            cursor: pointer;
+            background-color: rgb(54, 128, 54);
+        }
+        .header form{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+    <body>
+    
+        <div class="header">
+            {% if request.user.is_authenticated %}
+            <p>Hello, {{ request.user }}</p><br>
+            <form action="{% url 'CustomLogout' %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">LogOut</button>
+            </form>
+            {% else %}
+            <a href="{% url 'CustomLogin' %}">Login</a>
+            {% endif %}
+        </div>
+
+    <hr>
+
+    <form action="" method = "get">
+        <input type="text" placeholder="Enter a task" name = 'search-key' value = "{{search_input}}">
+        <input type="submit" value="Search">
+    </form>
+
+    <h2>My Task List</h2>
+    <a href="{% url 'CreateTask' %}">Create a New Task</a>
+    <!-- <p>{{tasks}}</p> -->
+    <table>
+        <tr>
+            <th>Tasks Pending</th>
+            <th></th>
+        </tr>
+        <!-- <tr>
+            <p>No of Pending Tasks: {{tasks.count}}</p>
+        </tr> -->
+         {% for task in tasks %}
+        <tr>
+            <td> {{task.task}} </td>
+            <!-- <td><a href="{% url 'TaskDetail' task.id %}">View</a></td> -->
+            <td><a href="{% url 'UpdateTask' task.id %}">Edit</a></td>
+            <td><a href="{% url 'DeleteTask' task.id %}">Delete</a></td>
+        </tr>
+        {% empty %}
+        <h3>No Tasks Pending</h3>
+        {% endfor %}
+    </table>
+     
+</body>
+</html>
+
+{% endblock content %}
